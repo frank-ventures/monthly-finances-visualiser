@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+//TODO: Tidy up this enormous messy tangle of code. Refactoring, Components and more.
 export default function App() {
   // --- --- --- --- --- --- --- --- --- --- --- ---
   // --- --- --- --- --- Income --- --- --- --- ---
   // --- --- --- --- --- --- --- --- --- --- --- ---
   // --- --- User Income
   // --- Income
-  const [userIncome, setUserIncome] = useState(0);
+  const [userIncome, setUserIncome] = useState(() => {
+    return JSON.parse(localStorage.getItem("userIncome")) || 0;
+  });
   const [incomeVisible, setIncomeVisible] = useState(true);
 
   // --- --- --- --- --- --- --- --- --- --- --- ---
@@ -75,7 +78,9 @@ export default function App() {
   // --- --- Add Expenses --- ---
   // https://dev.to/okafor__mary/how-to-dynamically-add-input-fields-on-button-click-in-reactjs-5298
   const defaultExpense = { expenseName: "", expenseValue: 0 };
-  const [expenses, setExpenses] = useState([defaultExpense]);
+  const [expenses, setExpenses] = useState(() => {
+    return JSON.parse(localStorage.getItem("expenses")) || [defaultExpense];
+  });
   const [expensesTotal, setExpensesTotal] = useState(0);
   const [expensesVisible, setExpensesVisible] = useState(false);
 
@@ -123,7 +128,9 @@ export default function App() {
     savingType: savingsTypes[0],
     savingLocation: "Bank ISA",
   };
-  const [savings, setSavings] = useState([defaultSavings]);
+  const [savings, setSavings] = useState(() => {
+    return JSON.parse(localStorage.getItem("savings")) || [defaultSavings];
+  });
   const [savingsTotal, setSavingsTotal] = useState(0);
   const [savingsVisible, setSavingsVisible] = useState(false);
 
@@ -160,6 +167,21 @@ export default function App() {
     newArray.splice(index, 1);
     setSavings(newArray);
   };
+
+  // --- --- --- --- --- --- --- --- --- --- --- ---
+  // --- --- --- --- --- Local Storage --- --- --- ---
+  // --- --- --- --- --- --- --- --- --- --- --- ---
+  useEffect(() => {
+    localStorage.setItem("userIncome", JSON.stringify(userIncome));
+  }, [userIncome]);
+
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+  }, [expenses]);
+
+  useEffect(() => {
+    localStorage.setItem("savings", JSON.stringify(savings));
+  }, [savings]);
 
   // --- --- --- --- --- --- --- --- --- --- --- ---
   // --- --- --- --- --- Main Return --- --- --- ---
@@ -315,42 +337,53 @@ export default function App() {
             {expensesVisible ? (
               <>
                 <div className="flex flex-col gap-2 max-h-32 overflow-scroll border border-solid border-green-800 px-1 py-2 rounded-lg w-full">
-                  {expenses.map((item, index) => (
-                    <div className="flex gap-2 justify-between" key={index}>
-                      <input
-                        name="expenseName"
-                        type="text"
-                        placeholder="Name of Expense"
-                        className="p-2 rounded w-56 shadow-inner shadow-black text-black"
-                        value={item.expenseName}
-                        onChange={(event) => handleExpenseChange(event, index)}
-                      />
-                      <input
-                        name="expenseValue"
-                        type="number"
-                        placeholder="Enter Monthly Amount"
-                        className={`p-2 rounded text-black w-20 shadow-inner shadow-black ${
-                          isNaN(item.expenseValue)
-                            ? `bg-red-500 text-white`
-                            : ``
-                        }`}
-                        value={item.expenseValue}
-                        onChange={(event) => handleExpenseChange(event, index)}
-                      />
+                  <div className="flex gap-2 justify-between mx-2">
+                    <p>What is it?</p>
+                    <p>How much?</p>
+                    <p>Get rid</p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    {expenses.map((item, index) => (
+                      <div className="flex gap-2 justify-between" key={index}>
+                        <input
+                          name="expenseName"
+                          type="text"
+                          placeholder="Name of Expense"
+                          className="p-2 rounded w-56 shadow-inner shadow-black text-black"
+                          value={item.expenseName}
+                          onChange={(event) =>
+                            handleExpenseChange(event, index)
+                          }
+                        />
+                        <input
+                          name="expenseValue"
+                          type="number"
+                          placeholder="Enter Monthly Amount"
+                          className={`p-2 rounded text-black w-20 shadow-inner shadow-black ${
+                            isNaN(item.expenseValue)
+                              ? `bg-red-500 text-white`
+                              : ``
+                          }`}
+                          value={item.expenseValue}
+                          onChange={(event) =>
+                            handleExpenseChange(event, index)
+                          }
+                        />
 
-                      <button
-                        className={`${
-                          expenses.length == 1
-                            ? `bg-slate-400 text-black opacity-30`
-                            : `bg-red-700 text-white shadow-md border border-solid border-red-900`
-                        }  p-1`}
-                        disabled={expenses.length == 1}
-                        onClick={() => handleDeleteExpense(index)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  ))}
+                        <button
+                          className={`${
+                            expenses.length == 1
+                              ? `bg-slate-400 text-black opacity-30`
+                              : `bg-red-700 text-white shadow-md border border-solid border-red-900`
+                          }  p-1`}
+                          disabled={expenses.length == 1}
+                          onClick={() => handleDeleteExpense(index)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
                 <button
                   className="bg-orange-300 rounded p-2 w-48"
@@ -431,8 +464,15 @@ export default function App() {
             </div>
 
             <div className="flex flex-col gap-2 max-h-32 overflow-scroll border border-solid border-green-800 px-1 py-2 rounded-lg w-full">
+              <div className="flex gap-2 justify-between mx-2">
+                <p>What is it?</p>
+                <p>How much?</p>
+                <p>Type?</p>
+                <p>Stored Where??</p>
+                <p>Get rid</p>
+              </div>
               {savings.map((item, index) => (
-                <div className="flex gap-2" key={index}>
+                <div className="flex gap-2 justify-between" key={index}>
                   <input
                     name="savingName"
                     type="text"
