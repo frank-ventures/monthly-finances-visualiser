@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import AddNewButton from "./components/AddNewButton";
-import DeleteButton from "./components/DeleteButton";
-import MainHeading from "./components/MainHeading";
+import IncomeSection from "./components/IncomeSection";
+import TaxSection from "./components/TaxSection";
+import ExpensesSection from "./components/ExpensesSection";
+import SavingsSection from "./components/SavingsSection";
 
 //TODO: Tidy up this enormous messy tangle of code. Refactoring, Components and more.
 export default function App() {
@@ -189,75 +190,15 @@ export default function App() {
   return (
     <div className="whole-page flex gap-2 flex-col p-2 items-center bg-blue-200 min-h-dvh">
       <h1 className=" text-orange-600 text-6xl">Play Money</h1>
+      <IncomeSection
+        setIncomeVisible={setIncomeVisible}
+        incomeVisible={incomeVisible}
+        userIncome={userIncome}
+        setUserIncome={setUserIncome}
+        annualTakeHome={annualTakeHome}
+        monthlytakeHome={monthlytakeHome}
+      />
 
-      <div className="user-income flex flex-col gap-2 bg-green-900 text-white border border-black border-solid p-2 rounded-md w-full">
-        <MainHeading
-          mainColour={"bg-orange-400"}
-          hoverColour={"hover:bg-orange-600"}
-          onClickFunction={() => {
-            setIncomeVisible(!incomeVisible);
-          }}
-          text={"Income"}
-          visibility={incomeVisible}
-        />
-
-        <label htmlFor="userIncome" className="text-center font-light text-lg">
-          Your Annual Income:{" "}
-          <span className="text-2xl pl-2 text-green-400">
-            £
-            {userIncome.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </span>
-        </label>
-
-        <div
-          className={`${
-            incomeVisible ? `block` : `hidden`
-          } flex flex-col items-center`}
-        >
-          <input
-            name="userIncome"
-            type="number"
-            min={0}
-            placeholder="Enter your yearly income"
-            value={userIncome}
-            className="p-2 rounded shadow-inner shadow-black text-black w-8/12 max-w-72"
-            onChange={(event) => {
-              setUserIncome(parseInt(event.target.value || 0));
-            }}
-          />
-
-          <div className="flex flex-col gap-2 my-4 w-10/12 max-w-96">
-            <p className="flex justify-between gap-2 mx-4">
-              <span className="italic font-extralight">
-                Annual take home pay:
-              </span>
-              <span className="text-lg">
-                £
-                {annualTakeHome.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </span>
-            </p>
-
-            <p className="flex justify-between gap-2 mx-4">
-              <span className="italic font-extralight">
-                Monthly take home pay:
-              </span>
-              <span className="text-lg">
-                £
-                {monthlytakeHome.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
       {userIncome == 0 ? (
         <div className="flex flex-col gap-2 items-center justify-center min-h-20 mt-16 bg-green-900 text-white border border-black border-solid p-2 rounded-md w-full">
           <p className="text-2xl font-light text-orange-300">
@@ -266,333 +207,37 @@ export default function App() {
         </div>
       ) : (
         <>
-          <div className="user-tax flex flex-col items-center gap-2 bg-green-900 text-white border border-black border-solid p-2 rounded-md w-full">
-            <MainHeading
-              mainColour={"bg-blue-400"}
-              hoverColour={"hover:bg-blue-600"}
-              onClickFunction={() => {
-                setTaxVisible(!taxVisible);
-              }}
-              text={"Tax"}
-              visibility={taxVisible}
-            />
+          <TaxSection
+            setTaxVisible={setTaxVisible}
+            taxVisible={taxVisible}
+            usersTaxableIncome={usersTaxableIncome}
+            nationalInsurancePayments={nationalInsurancePayments}
+            taxPaid={taxPaid}
+          />
 
-            <div
-              className={`${
-                taxVisible ? `block` : `hidden`
-              } flex flex-col gap-2 my-4 w-8/12 max-w-96`}
-            >
-              <p className="text-center font-extralight mb-2">
-                All figures are yearly
-              </p>
-              <p className="flex justify-between gap-2 mx-4">
-                <span className="italic font-extralight">Taxable Income:</span>
-                <span className="text-lg">
-                  £
-                  {usersTaxableIncome.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
-              </p>
+          <ExpensesSection
+            setExpensesVisible={setExpensesVisible}
+            expensesVisible={expensesVisible}
+            expenses={expenses}
+            handleTypeChange={handleTypeChange}
+            handleDeleteType={handleDeleteType}
+            addNewField={addNewField}
+            expensesTotal={expensesTotal}
+            monthlytakeHome={monthlytakeHome}
+          />
 
-              <p className="flex justify-between gap-2 mx-4">
-                <span className="italic font-extralight">NI Payments:</span>
-                <span className="text-lg">
-                  £
-                  {nationalInsurancePayments.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
-              </p>
-              <p className="flex justify-between gap-2 mx-4">
-                <span className="italic font-extralight">Tax Paid:</span>
-                <span className="text-lg">
-                  £
-                  {taxPaid.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
-              </p>
-            </div>
-          </div>
-
-          <div className="user-expenses flex flex-col items-center gap-2 bg-green-900 text-white border border-black border-solid p-2 rounded-md w-full">
-            <MainHeading
-              mainColour={"bg-purple-400"}
-              hoverColour={"hover:bg-purple-600"}
-              onClickFunction={() => setExpensesVisible(!expensesVisible)}
-              text={"Expenses"}
-              visibility={expensesVisible}
-            />
-
-            {expensesVisible ? (
-              <>
-                <div className="flex flex-col gap-2 max-h-32 overflow-scroll border border-solid border-green-800 px-1 py-2 rounded-lg w-full">
-                  <div className="flex gap-2 justify-between mx-2">
-                    <p>What is it?</p>
-                    <p>How much?</p>
-                    <p>Get rid</p>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    {expenses.map((item, index) => (
-                      <div className="flex gap-2 justify-between" key={index}>
-                        <input
-                          name="expenseName"
-                          type="text"
-                          placeholder="Name of Expense"
-                          className="p-2 rounded w-56 shadow-inner shadow-black text-black"
-                          value={item.expenseName}
-                          onChange={(event) =>
-                            handleTypeChange(event, index, "expense")
-                          }
-                        />
-                        <input
-                          name="expenseValue"
-                          type="number"
-                          placeholder="Enter Monthly Amount"
-                          className={`p-2 rounded text-black w-20 shadow-inner shadow-black ${
-                            isNaN(item.expenseValue)
-                              ? `bg-red-500 text-white`
-                              : ``
-                          }`}
-                          value={item.expenseValue}
-                          onChange={(event) =>
-                            handleTypeChange(event, index, "expense")
-                          }
-                        />
-
-                        <DeleteButton
-                          onClickFunction={() =>
-                            handleDeleteType(index, "expense")
-                          }
-                          text="Delete"
-                          conditionalCheck={expenses.length == 1}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <AddNewButton
-                  onClickFunction={() => {
-                    addNewField("expense");
-                  }}
-                  text={"Add New Expense"}
-                />
-              </>
-            ) : (
-              ""
-            )}
-
-            <div className="flex flex-col gap-2 my-4 w-10/12 max-w-80">
-              {isNaN(expensesTotal) ? (
-                "Check your amounts!"
-              ) : (
-                <>
-                  <p>
-                    <p className="flex justify-between gap-2 font-light">
-                      Total Monthly Expenses:
-                      <span className="text-xl">
-                        £{expensesTotal.toFixed(2)}
-                      </span>
-                    </p>
-                  </p>
-
-                  <p className="flex justify-between gap-2 font-light">
-                    Monthly Remaining:
-                    <span className="text-xl">
-                      £{(monthlytakeHome - expensesTotal).toFixed(2)}
-                    </span>
-                  </p>
-
-                  <p className="flex justify-between gap-2 font-light">
-                    % of Income Remaining:{" "}
-                    <span className="text-xl">
-                      {(
-                        ((monthlytakeHome - expensesTotal) / monthlytakeHome) *
-                        100
-                      ).toFixed(1)}
-                      %
-                    </span>
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-
-          <div className="user-savings flex flex-col items-center gap-2 bg-green-900 text-white border border-black border-solid p-2 rounded-md w-full">
-            <MainHeading
-              mainColour={"bg-yellow-400"}
-              hoverColour={"hover:bg-yellow-600"}
-              onClickFunction={() => setSavingsVisible(!savingsVisible)}
-              text={"Savings"}
-              visibility={savingsVisible}
-            />
-
-            <div className="flex justify-evenly gap-6">
-              <p className="flex gap-2 items-center font-light">
-                Unallocated Funds:
-                <span className="text-green-500 text-lg">
-                  £{(monthlytakeHome - expensesTotal - savingsTotal).toFixed(2)}
-                </span>
-              </p>
-              <p className="flex gap-2 items-center font-light">
-                As Percent
-                <span className="text-green-500 text-lg">
-                  {(
-                    ((monthlytakeHome - expensesTotal - savingsTotal) /
-                      (monthlytakeHome - expensesTotal)) *
-                    100
-                  ).toFixed(2)}
-                  %
-                </span>
-              </p>
-            </div>
-            {savingsVisible ? (
-              <>
-                <div className="flex flex-col gap-2 max-h-32 overflow-scroll border border-solid border-green-800 px-1 py-2 rounded-lg w-full">
-                  <div className="flex gap-2 justify-between mx-2">
-                    <p>What is it?</p>
-                    <p>How much?</p>
-                    <p>Type?</p>
-                    <p>Stored Where??</p>
-                    <p>Get rid</p>
-                  </div>
-                  {savings.map((item, index) => (
-                    <div className="flex gap-2 justify-between" key={index}>
-                      <input
-                        name="savingName"
-                        type="text"
-                        placeholder="Name of Saving"
-                        className="p-2 rounded text-black"
-                        value={item.savingName}
-                        onChange={(event) =>
-                          handleTypeChange(event, index, "saving")
-                        }
-                      />
-                      <input
-                        name="savingValue"
-                        type="number"
-                        placeholder="Enter Monthly Amount"
-                        className={`p-2 rounded text-black w-20 ${
-                          isNaN(item.savingValue) ? `bg-red-500 text-white` : ``
-                        }`}
-                        value={item.savingValue}
-                        onChange={(event) =>
-                          handleTypeChange(event, index, "saving")
-                        }
-                      />
-                      <select
-                        name="savingType"
-                        className="rounded text-black w-20"
-                        onChange={(event) =>
-                          handleTypeChange(event, index, "saving")
-                        }
-                      >
-                        {savingsTypes.map((type, index) => {
-                          return (
-                            <option key={index} value={type}>
-                              {type}
-                            </option>
-                          );
-                        })}
-                      </select>
-                      <input
-                        name="savingLocation"
-                        type="text"
-                        placeholder="Kept where?"
-                        className="rounded p-2 text-black w-32"
-                        value={item.savingLocation}
-                        onChange={(event) =>
-                          handleTypeChange(event, index, "saving")
-                        }
-                      />
-
-                      <DeleteButton
-                        onClickFunction={() =>
-                          handleDeleteType(index, "saving")
-                        }
-                        text="Delete"
-                        conditionalCheck={savings.length == 1}
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <AddNewButton
-                  onClickFunction={() => {
-                    addNewField("saving");
-                  }}
-                  text={"Add New Saving"}
-                />
-
-                <div className="flex flex-col gap-2 my-4 w-8/12 max-w-96">
-                  {isNaN(savingsTotal) ? (
-                    <p>Check your amounts!</p>
-                  ) : (
-                    <>
-                      <p className="flex justify-between gap-2 font-light">
-                        Total Saved Monthly:
-                        <span className="text-xl">
-                          £
-                          {savingsTotal.toLocaleString(undefined, {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          })}
-                        </span>
-                      </p>
-
-                      <p className="flex justify-between gap-2 font-light italic">
-                        <p>
-                          As Percent{" "}
-                          <span className="text-sm">
-                            (of £{(monthlytakeHome - expensesTotal).toFixed(2)})
-                          </span>
-                          :
-                        </p>
-
-                        <span className="text-xl">
-                          {(
-                            (savingsTotal / (monthlytakeHome - expensesTotal)) *
-                            100
-                          ).toFixed(2)}
-                          %
-                        </span>
-                      </p>
-
-                      {savingsTypes.map((type, index) => {
-                        const matchedValue = savings
-                          .filter((each) => each.savingType == type)
-                          .reduce(
-                            (acc, curr) => acc + parseInt(curr.savingValue),
-                            0
-                          );
-                        return (
-                          <p
-                            key={index}
-                            className="flex justify-between gap-2 font-light"
-                          >
-                            Total in {type}s
-                            <span className="text-xl">
-                              £
-                              {matchedValue.toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                              })}
-                            </span>
-                          </p>
-                        );
-                      })}
-                    </>
-                  )}
-                </div>
-              </>
-            ) : (
-              ""
-            )}
-          </div>
+          <SavingsSection
+            setSavingsVisible={setSavingsVisible}
+            savingsVisible={savingsVisible}
+            savings={savings}
+            savingsTotal={savingsTotal}
+            savingsTypes={savingsTypes}
+            handleTypeChange={handleTypeChange}
+            handleDeleteType={handleDeleteType}
+            addNewField={addNewField}
+            expensesTotal={expensesTotal}
+            monthlytakeHome={monthlytakeHome}
+          />
         </>
       )}
     </div>
