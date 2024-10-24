@@ -14,7 +14,7 @@ export default function ExpensesSection({
   monthlytakeHome,
 }) {
   return (
-    <div className="user-expenses flex flex-col items-center gap-2 bg-green-900 text-white border border-black border-solid p-2 rounded-md w-full">
+    <div className="user-expenses flex flex-col items-center gap-2 bg-green-800 text-white p-2 rounded-md w-full border-t-8 border-t-green-600 shadow shadow-slate-800">
       <MainHeading
         mainColour={"bg-purple-300"}
         hoverColour={"hover:bg-purple-600"}
@@ -30,7 +30,7 @@ export default function ExpensesSection({
         <>
           <scroll-shadow>
             <div
-              className={`hidden-scrollbar flex flex-col gap-2 max-h-52 overflow-scroll overflow-x-hidden border border-solid border-green-800 bg-sky-800 p-2 rounded-lg shadow-inner shadow-black`}
+              className={`hidden-scrollbar flex flex-col gap-2 max-h-52 overflow-scroll overflow-x-hidden border border-solid border-green-800 bg-sky-800 p-2 rounded-lg shadow-inner shadow-black border-l-4 border-l-sky-500`}
             >
               <div className="flex gap-2 justify-between items-center text-center mx-2 ">
                 <p className="w-6/12">What is it?</p>

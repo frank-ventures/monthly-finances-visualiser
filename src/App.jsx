@@ -185,10 +185,23 @@ export default function App() {
   }, [savings]);
 
   // --- --- --- --- --- --- --- --- --- --- --- ---
+  // --- --- --- --- --- Reset --- --- --- ---
+  // --- --- --- --- --- --- --- --- --- --- --- ---
+  const [resetVisible, setResetVisible] = useState(false);
+  function resetAllStats() {
+    setUserIncome(0);
+    setExpenses([defaultExpense]);
+    setSavings([defaultSavings]);
+    setExpensesVisible(false);
+    setSavingsVisible(false);
+    setResetVisible(false);
+  }
+
+  // --- --- --- --- --- --- --- --- --- --- --- ---
   // --- --- --- --- --- Main Return --- --- --- ---
   // --- --- --- --- --- --- --- --- --- --- --- ---
   return (
-    <div className="whole-page flex gap-2 flex-col p-2 items-center bg-blue-200 min-h-dvh">
+    <div className="whole-page flex gap-4 flex-col p-2 items-center bg-sky-100 min-h-dvh">
       <h1 className=" text-orange-600 text-6xl">Play Money</h1>
 
       <IncomeSection
@@ -239,6 +252,39 @@ export default function App() {
             expensesTotal={expensesTotal}
             monthlytakeHome={monthlytakeHome}
           />
+
+          {!resetVisible ? (
+            <button
+              className="bg-red-500 bg-opacity-40 p-2 border border-red-700"
+              onClick={() => {
+                setResetVisible(!resetVisible);
+              }}
+            >
+              Reset All?
+            </button>
+          ) : (
+            ""
+          )}
+          {resetVisible ? (
+            <div className="flex gap-8">
+              <button
+                className="bg-red-500 bg-opacity-40 p-2 border border-red-700"
+                onClick={resetAllStats}
+              >
+                Actually Reset!
+              </button>
+              <button
+                className="bg-green-500 bg-opacity-40 p-2 border border-green-700"
+                onClick={() => {
+                  setResetVisible(!resetVisible);
+                }}
+              >
+                No!
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
         </>
       )}
     </div>

@@ -7,7 +7,7 @@ export default function TaxSection({
   taxPaid,
 }) {
   return (
-    <div className="user-tax flex flex-col items-center gap-2 bg-green-900 text-white border border-black border-solid p-2 rounded-md w-full">
+    <div className="user-tax flex flex-col items-center gap-2 bg-green-800 text-white  p-2 rounded-md w-full border-t-8 border-t-green-600 shadow shadow-slate-800">
       <MainHeading
         mainColour={"bg-blue-300"}
         hoverColour={"hover:bg-blue-600"}

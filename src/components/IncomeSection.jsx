@@ -8,7 +8,7 @@ export default function IncomeSection({
   monthlytakeHome,
 }) {
   return (
-    <div className="user-income flex flex-col gap-2 bg-green-900 text-white border border-black border-solid p-2 rounded-md w-full">
+    <div className="user-income flex flex-col gap-2 bg-green-800 text-white p-2 rounded-md w-full border-t-8 border-t-green-600 shadow shadow-slate-800">
       <MainHeading
         mainColour={"bg-orange-300"}
         hoverColour={"hover:bg-orange-600"}
@@ -19,7 +19,7 @@ export default function IncomeSection({
         visibility={incomeVisible}
       />
 
-      <label htmlFor="userIncome" className="text-center font-light text-lg">
+      <label htmlFor="userIncome" className="text-center font-light text-lg ">
         Your Annual Income:{" "}
         <span className="text-2xl pl-2 text-green-400">
           £
