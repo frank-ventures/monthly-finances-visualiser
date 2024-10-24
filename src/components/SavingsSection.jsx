@@ -17,7 +17,7 @@ export default function SavingsSection({
   return (
     <div className="user-savings flex flex-col items-center gap-2 bg-green-900 text-white border border-black border-solid p-2 rounded-md w-full">
       <MainHeading
-        mainColour={"bg-yellow-400"}
+        mainColour={"bg-yellow-300"}
         hoverColour={"hover:bg-yellow-600"}
         onClickFunction={() => setSavingsVisible(!savingsVisible)}
         text={"Savings"}
@@ -46,7 +46,7 @@ export default function SavingsSection({
       {savingsVisible ? (
         <>
           <scroll-shadow>
-            <div className="hidden-scrollbar flex flex-col gap-2 max-h-52 overflow-scroll overflow-x-hidden border border-solid border-green-800 p-2 rounded-lg w-full  bg-green-700 shadow-inner shadow-black">
+            <div className="hidden-scrollbar flex flex-col gap-2 max-h-52 overflow-scroll overflow-x-hidden border border-solid border-green-800 p-2 rounded-lg w-full  bg-sky-800 shadow-inner shadow-black">
               <div className="flex gap-2 justify-between items-center text-center mx-2">
                 <p className="w-3/12">What is it?</p>
                 <p className="w-2/12">How much?</p>

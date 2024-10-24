@@ -184,21 +184,13 @@ export default function App() {
     localStorage.setItem("savings", JSON.stringify(savings));
   }, [savings]);
 
-  function toFixed(num, fixed) {
-    var re = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
-    return num.toString().match(re)[0];
-  }
-
   // --- --- --- --- --- --- --- --- --- --- --- ---
   // --- --- --- --- --- Main Return --- --- --- ---
   // --- --- --- --- --- --- --- --- --- --- --- ---
   return (
     <div className="whole-page flex gap-2 flex-col p-2 items-center bg-blue-200 min-h-dvh">
       <h1 className=" text-orange-600 text-6xl">Play Money</h1>
-      <h2>
-        Test number: {toFixed(nationalInsurancePayments, 2)}{" "}
-        {nationalInsurancePayments}
-      </h2>
+
       <IncomeSection
         setIncomeVisible={setIncomeVisible}
         incomeVisible={incomeVisible}

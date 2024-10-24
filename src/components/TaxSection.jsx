@@ -9,7 +9,7 @@ export default function TaxSection({
   return (
     <div className="user-tax flex flex-col items-center gap-2 bg-green-900 text-white border border-black border-solid p-2 rounded-md w-full">
       <MainHeading
-        mainColour={"bg-blue-400"}
+        mainColour={"bg-blue-300"}
         hoverColour={"hover:bg-blue-600"}
         onClickFunction={() => {
           setTaxVisible(!taxVisible);

@@ -10,7 +10,7 @@ export default function IncomeSection({
   return (
     <div className="user-income flex flex-col gap-2 bg-green-900 text-white border border-black border-solid p-2 rounded-md w-full">
       <MainHeading
-        mainColour={"bg-orange-400"}
+        mainColour={"bg-orange-300"}
         hoverColour={"hover:bg-orange-600"}
         onClickFunction={() => {
           setIncomeVisible(!incomeVisible);
