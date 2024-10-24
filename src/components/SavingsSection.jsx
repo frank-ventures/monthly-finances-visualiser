@@ -45,64 +45,74 @@ export default function SavingsSection({
       </div>
       {savingsVisible ? (
         <>
-          <div className="flex flex-col gap-2 max-h-32 overflow-scroll border border-solid border-green-800 px-1 py-2 rounded-lg w-full">
-            <div className="flex gap-2 justify-between items-center text-center mx-2">
-              <p className="w-3/12">What is it?</p>
-              <p className="w-2/12">How much?</p>
-              <p className="w-2/12">Type?</p>
-              <p className="w-2/12">Stored Where?</p>
-              <p className="w-2/12">Get rid!</p>
-            </div>
-            {savings.map((item, index) => (
-              <div className="flex gap-2 justify-between text-sm" key={index}>
-                <input
-                  name="savingName"
-                  type="text"
-                  placeholder="Name of Saving"
-                  className="p-2 rounded text-black w-3/12"
-                  value={item.savingName}
-                  onChange={(event) => handleTypeChange(event, index, "saving")}
-                />
-                <input
-                  name="savingValue"
-                  type="number"
-                  placeholder="Enter Monthly Amount"
-                  className={`p-2 rounded text-black w-[14%] ${
-                    isNaN(item.savingValue) ? `bg-red-500 text-white` : ``
-                  }`}
-                  value={item.savingValue}
-                  onChange={(event) => handleTypeChange(event, index, "saving")}
-                />
-                <select
-                  name="savingType"
-                  className="rounded text-black w-2/12"
-                  onChange={(event) => handleTypeChange(event, index, "saving")}
-                >
-                  {savingsTypes.map((type, index) => {
-                    return (
-                      <option key={index} value={type}>
-                        {type}
-                      </option>
-                    );
-                  })}
-                </select>
-                <input
-                  name="savingLocation"
-                  type="text"
-                  placeholder="Kept where?"
-                  className="rounded p-2 text-black w-2/12"
-                  value={item.savingLocation}
-                  onChange={(event) => handleTypeChange(event, index, "saving")}
-                />
-
-                <DeleteButton
-                  onClickFunction={() => handleDeleteType(index, "saving")}
-                  text="Delete"
-                  conditionalCheck={savings.length == 1}
-                />
+          <scroll-shadow>
+            <div className="hidden-scrollbar flex flex-col gap-2 max-h-52 overflow-scroll overflow-x-hidden border border-solid border-green-800 p-2 rounded-lg w-full  bg-green-700 shadow-inner shadow-black">
+              <div className="flex gap-2 justify-between items-center text-center mx-2">
+                <p className="w-3/12">What is it?</p>
+                <p className="w-2/12">How much?</p>
+                <p className="w-2/12">Type?</p>
+                <p className="w-2/12">Stored Where?</p>
+                <p className="w-2/12">Get rid!</p>
               </div>
-            ))}
-          </div>
+              {savings.map((item, index) => (
+                <div className="flex gap-2 justify-between text-sm" key={index}>
+                  <input
+                    name="savingName"
+                    type="text"
+                    placeholder="Name of Saving"
+                    className="shadow-inner shadow-black p-2 rounded text-black w-3/12"
+                    value={item.savingName}
+                    onChange={(event) =>
+                      handleTypeChange(event, index, "saving")
+                    }
+                  />
+                  <input
+                    name="savingValue"
+                    type="number"
+                    placeholder="Enter Monthly Amount"
+                    className={`shadow-inner shadow-black p-2 rounded text-black w-[14%] ${
+                      isNaN(item.savingValue) ? `bg-red-500 text-white` : ``
+                    }`}
+                    value={item.savingValue}
+                    onChange={(event) =>
+                      handleTypeChange(event, index, "saving")
+                    }
+                  />
+                  <select
+                    name="savingType"
+                    className="shadow-inner shadow-black rounded text-black w-2/12"
+                    onChange={(event) =>
+                      handleTypeChange(event, index, "saving")
+                    }
+                  >
+                    {savingsTypes.map((type, index) => {
+                      return (
+                        <option key={index} value={type}>
+                          {type}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <input
+                    name="savingLocation"
+                    type="text"
+                    placeholder="Kept where?"
+                    className="shadow-inner shadow-black rounded p-2 text-black w-2/12"
+                    value={item.savingLocation}
+                    onChange={(event) =>
+                      handleTypeChange(event, index, "saving")
+                    }
+                  />
+
+                  <DeleteButton
+                    onClickFunction={() => handleDeleteType(index, "saving")}
+                    text="Delete"
+                    conditionalCheck={savings.length == 1}
+                  />
+                </div>
+              ))}
+            </div>
+          </scroll-shadow>
 
           <AddNewButton
             onClickFunction={() => {

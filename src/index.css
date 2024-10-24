@@ -14,3 +14,32 @@
   font-weight: 400;
   font-style: normal;
 }
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hidden-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* This is great and installed via this: https://github.com/ingmarh/scroll-shadow-element/tree/main */
+scroll-shadow {
+  display: inline-block;
+  --scroll-shadow-size: 15;
+  --scroll-shadow-top: radial-gradient(
+    farthest-side at 50% 0%,
+    rgba(0, 0, 0, 0.743),
+    #00000001
+  );
+  --scroll-shadow-bottom: radial-gradient(
+    farthest-side at 50% 100%,
+    rgba(0, 0, 0, 0.732),
+    #00000001
+  );
+  --scroll-shadow-left: radial-gradient(farthest-side at 0%, #0003, #0000);
+  --scroll-shadow-right: radial-gradient(farthest-side at 100%, #0003, #0000);
+
+  width: 100%;
+}

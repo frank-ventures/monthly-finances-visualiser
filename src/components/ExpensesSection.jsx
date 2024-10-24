@@ -1,6 +1,8 @@
 import MainHeading from "./MainHeading";
 import DeleteButton from "./DeleteButton";
 import AddNewButton from "./AddNewButton";
+import "scroll-shadow-element";
+import { useState } from "react";
 
 export default function ExpensesSection({
   setExpensesVisible,
@@ -27,47 +29,52 @@ export default function ExpensesSection({
 
       {expensesVisible ? (
         <>
-          <div className="flex flex-col gap-2 max-h-32 overflow-scroll border border-solid border-green-800 px-1 py-2 rounded-lg w-full">
-            <div className="flex gap-2 justify-between items-center text-center mx-2">
-              <p className="w-6/12">What is it?</p>
-              <p className="w-3/12">How much?</p>
-              <p className="w-2/12">Get rid!</p>
-            </div>
-            <div className="flex flex-col gap-2">
-              {expenses.map((item, index) => (
-                <div className="flex gap-2 justify-between" key={index}>
-                  <input
-                    name="expenseName"
-                    type="text"
-                    placeholder="Name of Expense"
-                    className="p-2 rounded w-6/12 shadow-inner shadow-black text-black"
-                    value={item.expenseName}
-                    onChange={(event) =>
-                      handleTypeChange(event, index, "expense")
-                    }
-                  />
-                  <input
-                    name="expenseValue"
-                    type="number"
-                    placeholder="Enter Monthly Amount"
-                    className={`p-2 rounded text-black w-3/12 shadow-inner shadow-black ${
-                      isNaN(item.expenseValue) ? `bg-red-500 text-white` : ``
-                    }`}
-                    value={item.expenseValue}
-                    onChange={(event) =>
-                      handleTypeChange(event, index, "expense")
-                    }
-                  />
+          <scroll-shadow>
+            <div
+              className={`hidden-scrollbar flex flex-col gap-2 max-h-52 overflow-scroll overflow-x-hidden border border-solid border-green-800 bg-green-700 p-2 rounded-lg shadow-inner shadow-black`}
+            >
+              <div className="flex gap-2 justify-between items-center text-center mx-2 ">
+                <p className="w-6/12">What is it?</p>
+                <p className="w-3/12">How much?</p>
+                <p className="w-2/12">Get rid!</p>
+              </div>
+              <div className="flex flex-col gap-2 ">
+                {expenses.map((item, index) => (
+                  <div className="flex gap-2 justify-between" key={index}>
+                    <input
+                      name="expenseName"
+                      type="text"
+                      placeholder="Name of Expense"
+                      className="p-2 rounded w-6/12 shadow-inner shadow-black text-black"
+                      value={item.expenseName}
+                      onChange={(event) =>
+                        handleTypeChange(event, index, "expense")
+                      }
+                    />
+                    <input
+                      name="expenseValue"
+                      type="number"
+                      placeholder="Enter Monthly Amount"
+                      className={`p-2 rounded text-black w-3/12 shadow-inner shadow-black ${
+                        isNaN(item.expenseValue) ? `bg-red-500 text-white` : ``
+                      }`}
+                      value={item.expenseValue}
+                      onChange={(event) =>
+                        handleTypeChange(event, index, "expense")
+                      }
+                    />
 
-                  <DeleteButton
-                    onClickFunction={() => handleDeleteType(index, "expense")}
-                    text="Delete"
-                    conditionalCheck={expenses.length == 1}
-                  />
-                </div>
-              ))}
+                    <DeleteButton
+                      onClickFunction={() => handleDeleteType(index, "expense")}
+                      text="Delete"
+                      conditionalCheck={expenses.length == 1}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          </scroll-shadow>
+
           <AddNewButton
             onClickFunction={() => {
               addNewField("expense");
@@ -84,12 +91,12 @@ export default function ExpensesSection({
           "Check your amounts!"
         ) : (
           <>
-            <p>
+            <div>
               <p className="flex justify-between gap-2 font-light">
                 Total Expenses:
                 <span className="text-xl">£{expensesTotal.toFixed(2)}</span>
               </p>
-            </p>
+            </div>
 
             <p className="flex justify-between gap-2 font-light">
               Income Remaining:

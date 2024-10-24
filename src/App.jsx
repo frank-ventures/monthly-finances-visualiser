@@ -30,7 +30,7 @@ export default function App() {
     if (userIncome < personalAllowance) {
       setUsersTaxableIncome(0);
     } else {
-      setUsersTaxableIncome(parseInt(userIncome - personalAllowance));
+      setUsersTaxableIncome(parseFloat(userIncome - personalAllowance));
     }
   }, [userIncome]);
 
@@ -40,7 +40,7 @@ export default function App() {
   // TODO: NI payments vary depending on income:
   useEffect(() => {
     if (userIncome > 12570 && userIncome < 50270) {
-      setNationalInsurancePayments(parseInt(usersTaxableIncome * 0.08));
+      setNationalInsurancePayments(parseFloat(usersTaxableIncome * 0.08));
     } else {
       setNationalInsurancePayments(0);
     }
@@ -51,7 +51,7 @@ export default function App() {
   const [taxPaid, setTaxPaid] = useState(0);
   // TODO: Tax payments is also variable depending on income level:
   useEffect(() => {
-    setTaxPaid(parseInt(usersTaxableIncome * 0.2));
+    setTaxPaid(parseFloat(usersTaxableIncome * 0.2));
   }, [usersTaxableIncome]);
 
   // --- --- --- --- --- --- --- ---
@@ -59,12 +59,12 @@ export default function App() {
   const [annualTakeHome, setAnnualTakeHome] = useState(0);
   useEffect(() => {
     if (usersTaxableIncome == 0) {
-      setAnnualTakeHome(parseInt(Math.round(userIncome * 100) / 100));
+      setAnnualTakeHome(parseFloat(Math.round(userIncome * 100) / 100));
     } else {
-      let numberToUse = parseInt(
+      let numberToUse = parseFloat(
         userIncome - nationalInsurancePayments - taxPaid
       );
-      setAnnualTakeHome(parseInt(Math.round(numberToUse * 100) / 100));
+      setAnnualTakeHome(parseFloat(Math.round(numberToUse * 100) / 100));
     }
   }, [userIncome, usersTaxableIncome, nationalInsurancePayments, taxPaid]);
 
@@ -72,7 +72,7 @@ export default function App() {
   // --- --- Monthly Take Home --- ---
   const [monthlytakeHome, setMonthlyTakeHome] = useState(0);
   useEffect(() => {
-    setMonthlyTakeHome(parseInt(annualTakeHome / 12));
+    setMonthlyTakeHome(parseFloat(annualTakeHome / 12));
   }, [annualTakeHome]);
 
   // --- --- --- --- --- --- --- --- --- --- --- ---
@@ -113,7 +113,7 @@ export default function App() {
   useEffect(() => {
     let total = 0;
     for (let i = 0; i < expenses.length; i++) {
-      total = total + parseInt(expenses[i].expenseValue);
+      total = total + parseFloat(expenses[i].expenseValue);
     }
     setExpensesTotal(total);
   }, [expenses]);
@@ -122,7 +122,7 @@ export default function App() {
   useEffect(() => {
     let total = 0;
     for (let i = 0; i < savings.length; i++) {
-      total = total + parseInt(savings[i].savingValue);
+      total = total + parseFloat(savings[i].savingValue);
     }
     setSavingsTotal(total);
   }, [savings]);
@@ -184,12 +184,21 @@ export default function App() {
     localStorage.setItem("savings", JSON.stringify(savings));
   }, [savings]);
 
+  function toFixed(num, fixed) {
+    var re = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
+    return num.toString().match(re)[0];
+  }
+
   // --- --- --- --- --- --- --- --- --- --- --- ---
   // --- --- --- --- --- Main Return --- --- --- ---
   // --- --- --- --- --- --- --- --- --- --- --- ---
   return (
     <div className="whole-page flex gap-2 flex-col p-2 items-center bg-blue-200 min-h-dvh">
       <h1 className=" text-orange-600 text-6xl">Play Money</h1>
+      <h2>
+        Test number: {toFixed(nationalInsurancePayments, 2)}{" "}
+        {nationalInsurancePayments}
+      </h2>
       <IncomeSection
         setIncomeVisible={setIncomeVisible}
         incomeVisible={incomeVisible}
