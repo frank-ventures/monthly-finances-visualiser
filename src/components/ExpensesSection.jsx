@@ -32,25 +32,28 @@ export default function ExpensesSection({
             <div
               className={`hidden-scrollbar overflow-x-scroll whitespace-nowrap flex flex-col gap-2 max-h-52 overflow-scroll border border-solid border-green-800 bg-sky-800 p-2 rounded-lg shadow-inner shadow-black border-l-4 border-l-sky-500`}
             >
-              <div className="flex gap-2 justify-evenly items-center text-center mx-2 ">
-                <p className="w-6/12 ">What is it?</p>
-                <p className="w-10/12">How much?</p>
+              <div className="flex gap-2 justify-between items-center text-center mx-2 ">
+                <p className="w-5/12">What is it?</p>
+                <p className="w-4/12">How much?</p>
                 <p className="w-2/12">Get rid!</p>
               </div>
               <div className="flex flex-col gap-2 ">
                 {expenses.map((item, index) => (
-                  <div className="flex gap-2 justify-between" key={index}>
+                  <div
+                    className="flex gap-2 justify-between items-center"
+                    key={index}
+                  >
                     <input
                       name="expenseName"
                       type="text"
                       placeholder="Name of Expense"
-                      className="p-2 rounded w-6/12 shadow-inner shadow-black text-black"
+                      className="p-2 rounded w-5/12 shadow-inner shadow-black text-black"
                       value={item.expenseName}
                       onChange={(event) =>
                         handleTypeChange(event, index, "expense")
                       }
                     />
-                    <span className="before:content-['£']  before:text-white before:pt-2 before:pr-1 w-10/12 flex justify-end">
+                    <span className="before:content-['£']  before:text-white before:pt-2 before:pr-1 w-4/12 flex justify-end">
                       <input
                         name="expenseValue"
                         type="number"

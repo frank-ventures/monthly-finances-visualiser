@@ -7,7 +7,7 @@ export default function MainHeading({
 }) {
   return (
     <h2
-      className={`flex justify-between px-12 text-4xl text-black ${mainColour} text-center p-1 rounded-md hover:cursor-pointer ${hoverColour} w-full shadow shadow-black`}
+      className={`flex justify-between px-12 text-4xl text-black ${mainColour} text-center p-1 rounded-md hover:cursor-pointer ${hoverColour}  w-full shadow shadow-black`}
       onClick={onClickFunction}
     >
       {text}

@@ -43,6 +43,12 @@ scroll-shadow {
 
   width: 100%;
   overflow-x: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+scroll-shadow::-webkit-scrollbar {
+  display: none;
 }
 
 input:focus {
