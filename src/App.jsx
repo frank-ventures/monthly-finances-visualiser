@@ -131,9 +131,15 @@ export default function App() {
     if (type == "expense") {
       const expenseChange = expenses.map((expense, i) => {
         if (i === index) {
+          if (event.target.name == "expenseValue" && event.target.value == "") {
+            return {
+              ...expense,
+              [event.target.name]: 0,
+            };
+          }
           return {
             ...expense,
-            [event.target.name]: event.target.value,
+            [event.target.name]: event.target.value.replace(/^0+/, ""),
           };
         } else {
           return expense;
@@ -144,9 +150,15 @@ export default function App() {
     } else {
       const savingsChange = savings.map((saving, i) => {
         if (i === index) {
+          if (event.target.name == "savingValue" && event.target.value == "") {
+            return {
+              ...saving,
+              [event.target.name]: 0,
+            };
+          }
           return {
             ...saving,
-            [event.target.name]: event.target.value,
+            [event.target.name]: event.target.value.replace(/^0+/, ""),
           };
         } else {
           return saving;

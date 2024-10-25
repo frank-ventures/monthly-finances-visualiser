@@ -30,3 +30,4 @@ This is the app for you!
 - [Googles Roboto Slab Font](https://fonts.google.com/specimen/Roboto+Slab?sort=relevance)
 - [Scroll Shadows](https://github.com/ingmarh/scroll-shadow-element/tree/main)
 - [Fixing the leading zero](https://github.com/mui/material-ui/issues/8380)
+- [Getting the currency symbol to appear next to input fields](https://stackoverflow.com/questions/64911889/how-to-add-before-element-to-the-input)

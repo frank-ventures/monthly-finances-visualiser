@@ -46,12 +46,12 @@ export default function SavingsSection({
       {savingsVisible ? (
         <>
           <scroll-shadow>
-            <div className="hidden-scrollbar flex flex-col gap-2 max-h-52 overflow-scroll overflow-x-hidden border border-solid border-green-800 p-2 rounded-lg w-full  bg-sky-800 shadow-inner shadow-black border-l-4 border-l-sky-500">
+            <div className="hidden-scrollbar min-w-[600px] overflow-x-scroll whitespace-nowrap flex flex-col gap-2 max-h-52 overflow-scroll border border-solid border-green-800 p-2 rounded-lg w-full  bg-sky-800 shadow-inner shadow-black border-l-4 border-l-sky-500 ">
               <div className="flex gap-2 justify-between items-center text-center mx-2">
                 <p className="w-3/12">What is it?</p>
                 <p className="w-2/12">How much?</p>
                 <p className="w-2/12">Type?</p>
-                <p className="w-2/12">Stored Where?</p>
+                <p className="w-2/12">Location?</p>
                 <p className="w-2/12">Get rid!</p>
               </div>
               {savings.map((item, index) => (
@@ -66,18 +66,20 @@ export default function SavingsSection({
                       handleTypeChange(event, index, "saving")
                     }
                   />
-                  <input
-                    name="savingValue"
-                    type="number"
-                    placeholder="Enter Monthly Amount"
-                    className={`shadow-inner shadow-black p-2 rounded text-black w-[14%] ${
-                      isNaN(item.savingValue) ? `bg-red-500 text-white` : ``
-                    }`}
-                    value={item.savingValue}
-                    onChange={(event) =>
-                      handleTypeChange(event, index, "saving")
-                    }
-                  />
+                  <span className="before:content-['£']  before:text-white before:pt-2 before:pr-1 w-[14%] flex justify-end">
+                    <input
+                      name="savingValue"
+                      type="number"
+                      placeholder="Enter Monthly Amount"
+                      className={`shadow-inner shadow-black p-2 rounded text-black w-10/12 ${
+                        isNaN(item.savingValue) ? `bg-red-500 text-white` : ``
+                      }`}
+                      value={item.savingValue || 0}
+                      onChange={(event) =>
+                        handleTypeChange(event, index, "saving")
+                      }
+                    />
+                  </span>
                   <select
                     name="savingType"
                     className="shadow-inner shadow-black rounded text-black w-2/12"
