@@ -50,4 +50,5 @@ input:focus {
   box-shadow: 0 0 0 2px hsla(34, 100%, 50%, 0.8),
     inset 0 2px 4px 0 rgba(0, 0, 0, 0.7);
   transition: box-shadow 0.15s ease;
+  color: rgb(6, 1, 83);
 }

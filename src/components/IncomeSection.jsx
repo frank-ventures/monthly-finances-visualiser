@@ -40,10 +40,11 @@ export default function IncomeSection({
           type="number"
           min={0}
           placeholder="Enter your yearly income"
-          value={userIncome}
+          value={userIncome.toString()}
           className="p-2 rounded shadow-inner shadow-black text-black w-8/12 max-w-72"
           onChange={(event) => {
-            setUserIncome(parseInt(event.target.value || 0));
+            const income = event.target.value.replace(/^0+/, "");
+            setUserIncome(parseInt(income || 0));
           }}
         />
 
