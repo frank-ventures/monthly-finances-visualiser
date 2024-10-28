@@ -1,6 +1,8 @@
 import MainHeading from "./MainHeading";
 import DeleteButton from "./DeleteButton";
 import AddNewButton from "./AddNewButton";
+import StatsWrapper from "./StatsWrapper";
+import Stat from "./Stat";
 
 export default function SavingsSection({
   setSavingsVisible,
@@ -123,63 +125,45 @@ export default function SavingsSection({
             text={"Add New Saving"}
           />
 
-          <div className="flex flex-col gap-2 my-4 w-8/12 max-w-96">
-            {isNaN(savingsTotal) ? (
-              <p>Check your amounts!</p>
-            ) : (
-              <>
-                <p className="flex justify-between gap-2 font-light">
-                  Total Saved Monthly:
-                  <span className="text-xl">
-                    £
-                    {savingsTotal.toLocaleString(undefined, {
+          {isNaN(savingsTotal) ? (
+            <p>Check your amounts!</p>
+          ) : (
+            <StatsWrapper>
+              <Stat
+                text="Total Saved Monthly:"
+                figure={savingsTotal.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              ></Stat>
+              <Stat
+                text={`As Percent (of £${(
+                  monthlytakeHome - expensesTotal
+                ).toFixed(2)})`}
+                figure={(
+                  (savingsTotal / (monthlytakeHome - expensesTotal)) *
+                  100
+                ).toFixed(2)}
+                percentTrue={true}
+              ></Stat>
+
+              {savingsTypes.map((type, index) => {
+                const matchedValue = savings
+                  .filter((each) => each.savingType == type)
+                  .reduce((acc, curr) => acc + parseInt(curr.savingValue), 0);
+                return (
+                  <Stat
+                    key={index}
+                    text={`Total in ${type}s:`}
+                    figure={matchedValue.toLocaleString(undefined, {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}
-                  </span>
-                </p>
-
-                <div className="flex justify-between gap-2 font-light italic">
-                  <p>
-                    As Percent{" "}
-                    <span className="text-sm">
-                      (of £{(monthlytakeHome - expensesTotal).toFixed(2)})
-                    </span>
-                    :
-                  </p>
-
-                  <span className="text-xl">
-                    {(
-                      (savingsTotal / (monthlytakeHome - expensesTotal)) *
-                      100
-                    ).toFixed(2)}
-                    %
-                  </span>
-                </div>
-
-                {savingsTypes.map((type, index) => {
-                  const matchedValue = savings
-                    .filter((each) => each.savingType == type)
-                    .reduce((acc, curr) => acc + parseInt(curr.savingValue), 0);
-                  return (
-                    <p
-                      key={index}
-                      className="flex justify-between gap-2 font-light"
-                    >
-                      Total in {type}s
-                      <span className="text-xl">
-                        £
-                        {matchedValue.toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })}
-                      </span>
-                    </p>
-                  );
-                })}
-              </>
-            )}
-          </div>
+                  ></Stat>
+                );
+              })}
+            </StatsWrapper>
+          )}
         </>
       ) : (
         ""

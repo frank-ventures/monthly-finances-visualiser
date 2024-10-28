@@ -2,6 +2,8 @@ import MainHeading from "./MainHeading";
 import DeleteButton from "./DeleteButton";
 import AddNewButton from "./AddNewButton";
 import "scroll-shadow-element";
+import StatsWrapper from "./StatsWrapper";
+import Stat from "./Stat";
 
 export default function ExpensesSection({
   setExpensesVisible,
@@ -96,38 +98,25 @@ export default function ExpensesSection({
         ""
       )}
 
-      <div className="flex flex-col gap-2 my-4 w-10/12 max-w-80">
-        {isNaN(expensesTotal) ? (
-          "Check your amounts!"
-        ) : (
-          <>
-            <div>
-              <p className="flex justify-between gap-2 font-light">
-                Total Expenses:
-                <span className="text-xl">£{expensesTotal.toFixed(2)}</span>
-              </p>
-            </div>
-
-            <p className="flex justify-between gap-2 font-light">
-              Income Remaining:
-              <span className="text-xl">
-                £{(monthlytakeHome - expensesTotal).toFixed(2)}
-              </span>
-            </p>
-
-            <p className="flex justify-between gap-2 font-light">
-              % of Income Remaining:{" "}
-              <span className="text-xl">
-                {(
-                  ((monthlytakeHome - expensesTotal) / monthlytakeHome) *
-                  100
-                ).toFixed(1)}
-                %
-              </span>
-            </p>
-          </>
-        )}
-      </div>
+      {isNaN(expensesTotal) ? (
+        <p>Check your amounts!</p>
+      ) : (
+        <StatsWrapper>
+          <Stat text="Total Expenses:" figure={expensesTotal.toFixed(2)}></Stat>
+          <Stat
+            text="Income Remaining:"
+            figure={(monthlytakeHome - expensesTotal).toFixed(2)}
+          ></Stat>
+          <Stat
+            text="% of Income Remaining:"
+            figure={(
+              ((monthlytakeHome - expensesTotal) / monthlytakeHome) *
+              100
+            ).toFixed(1)}
+            percentTrue={true}
+          ></Stat>
+        </StatsWrapper>
+      )}
     </div>
   );
 }

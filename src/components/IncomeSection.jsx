@@ -1,4 +1,6 @@
 import MainHeading from "./MainHeading";
+import Stat from "./Stat";
+import StatsWrapper from "./StatsWrapper";
 export default function IncomeSection({
   setIncomeVisible,
   incomeVisible,
@@ -33,7 +35,7 @@ export default function IncomeSection({
       <div
         className={`${
           incomeVisible ? `block` : `hidden`
-        } flex flex-col items-center`}
+        } flex flex-col items-center gap-4`}
       >
         <input
           name="userIncome"
@@ -48,33 +50,22 @@ export default function IncomeSection({
           }}
         />
 
-        <div className="flex flex-col gap-2 my-4 w-10/12 max-w-96">
-          <p className="flex justify-between gap-2 mx-4">
-            <span className="italic font-extralight">
-              Annual take home pay:
-            </span>
-            <span className="text-lg">
-              £
-              {annualTakeHome.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </span>
-          </p>
-
-          <p className="flex justify-between gap-2 mx-4">
-            <span className="italic font-extralight">
-              Monthly take home pay:
-            </span>
-            <span className="text-lg">
-              £
-              {monthlytakeHome.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </span>
-          </p>
-        </div>
+        <StatsWrapper>
+          <Stat
+            text="Annual take home pay:"
+            figure={annualTakeHome.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          ></Stat>
+          <Stat
+            text="Monthly take home pay:"
+            figure={monthlytakeHome.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          ></Stat>
+        </StatsWrapper>
       </div>
     </div>
   );

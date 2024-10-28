@@ -128,44 +128,34 @@ export default function App() {
   }, [savings]);
 
   const handleTypeChange = (event, index, type) => {
-    if (type == "expense") {
-      const expenseChange = expenses.map((expense, i) => {
+    const handleChange = (list, setList, valueKey) => {
+      const updatedList = list.map((item, i) => {
         if (i === index) {
-          if (event.target.name == "expenseValue" && event.target.value == "") {
+          if (event.target.name == valueKey && event.target.value == "") {
             return {
-              ...expense,
+              ...item,
               [event.target.name]: 0,
             };
           }
           return {
-            ...expense,
+            ...item,
             [event.target.name]: event.target.value.replace(/^0+/, ""),
           };
         } else {
-          return expense;
+          return item;
         }
       });
 
-      setExpenses(expenseChange);
-    } else {
-      const savingsChange = savings.map((saving, i) => {
-        if (i === index) {
-          if (event.target.name == "savingValue" && event.target.value == "") {
-            return {
-              ...saving,
-              [event.target.name]: 0,
-            };
-          }
-          return {
-            ...saving,
-            [event.target.name]: event.target.value.replace(/^0+/, ""),
-          };
-        } else {
-          return saving;
-        }
-      });
+      setList(updatedList);
+    };
 
-      setSavings(savingsChange);
+    if (type === "expense") {
+      handleChange(expenses, setExpenses, "expenseValue");
+    }
+    if (type === "saving") {
+      {
+        handleChange(savings, setSavings, "savingValue");
+      }
     }
   };
 
