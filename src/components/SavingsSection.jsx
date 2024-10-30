@@ -33,14 +33,6 @@ export default function SavingsSection({
       ).toFixed(2),
       percentTrue: true,
     },
-    {
-      text: "% of Income Remaining:",
-      figure: (
-        ((monthlytakeHome - expensesTotal) / monthlytakeHome) *
-        100
-      ).toFixed(1),
-      percentTrue: true,
-    },
   ];
 
   // --- We have a look at each 'type' of saving, get the value associated, then push to our 'stats array' the information needed:
@@ -58,6 +50,10 @@ export default function SavingsSection({
     });
   });
 
+  function savingsExceedFunds() {
+    return monthlytakeHome - expensesTotal - savingsTotal > 0 ? false : true;
+  }
+
   return (
     <SectionWrapper>
       <MainHeading
@@ -71,13 +67,21 @@ export default function SavingsSection({
       <div className="flex justify-evenly gap-6">
         <p className="flex gap-2 items-center font-light">
           Unallocated Funds:
-          <span className="text-green-400 text-lg">
+          <span
+            className={`${
+              savingsExceedFunds() ? `text-red-400` : `text-green-400`
+            } text-lg`}
+          >
             £{(monthlytakeHome - expensesTotal - savingsTotal).toFixed(2)}
           </span>
         </p>
         <p className="flex gap-2 items-center font-light">
           As Percent
-          <span className="text-green-400 text-lg">
+          <span
+            className={`${
+              savingsExceedFunds() ? `text-red-400` : `text-green-400`
+            } text-lg`}
+          >
             {(
               ((monthlytakeHome - expensesTotal - savingsTotal) /
                 (monthlytakeHome - expensesTotal)) *
@@ -110,10 +114,11 @@ export default function SavingsSection({
                       handleTypeChange(event, index, "saving")
                     }
                   />
-                  <span className="before:content-['£']  before:text-white before:pt-2 before:pr-1 w-[14%] flex justify-end">
+                  <span className="before:content-['£'] relative  before:text-white before:pt-2 before:pr-1 w-[14%] flex justify-end">
                     <input
                       name="savingValue"
                       type="number"
+                      min={1}
                       placeholder="Enter Monthly Amount"
                       className={`shadow-inner shadow-black p-2 rounded text-black w-10/12 ${
                         isNaN(item.savingValue) ? `bg-red-500 text-white` : ``
@@ -164,7 +169,8 @@ export default function SavingsSection({
             onClickFunction={() => {
               addNewField("saving");
             }}
-            text={"Add New Saving"}
+            text={savingsExceedFunds() ? "Not enough funds" : "Add New Saving"}
+            disabled={savingsExceedFunds()}
           />
 
           {isNaN(savingsTotal) ? (
