@@ -2,7 +2,7 @@ import MainHeading from "./MainHeading";
 import DeleteButton from "./DeleteButton";
 import AddNewButton from "./AddNewButton";
 import StatsWrapper from "./StatsWrapper";
-import Stat from "./Stat";
+import SectionWrapper from "./SectionWrapper";
 
 export default function SavingsSection({
   setSavingsVisible,
@@ -16,8 +16,50 @@ export default function SavingsSection({
   expensesTotal,
   monthlytakeHome,
 }) {
+  const savingsStats = [
+    {
+      text: "Total Saved Monthly:",
+      figure: savingsTotal.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+      percentTrue: false,
+    },
+    {
+      text: `As Percent (of £${(monthlytakeHome - expensesTotal).toFixed(2)})`,
+      figure: (
+        (savingsTotal / (monthlytakeHome - expensesTotal)) *
+        100
+      ).toFixed(2),
+      percentTrue: true,
+    },
+    {
+      text: "% of Income Remaining:",
+      figure: (
+        ((monthlytakeHome - expensesTotal) / monthlytakeHome) *
+        100
+      ).toFixed(1),
+      percentTrue: true,
+    },
+  ];
+
+  // --- We have a look at each 'type' of saving, get the value associated, then push to our 'stats array' the information needed:
+  savingsTypes.map((type) => {
+    const matchedValue = savings
+      .filter((each) => each.savingType == type)
+      .reduce((acc, curr) => acc + parseInt(curr.savingValue), 0);
+    return savingsStats.push({
+      text: `Total in ${type}s:`,
+      figure: matchedValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+      percentTrue: false,
+    });
+  });
+
   return (
-    <div className="user-savings flex flex-col items-center gap-2 bg-green-800 text-white p-2 rounded-md w-full border-t-8 border-t-green-600 shadow shadow-slate-800">
+    <SectionWrapper>
       <MainHeading
         mainColour={"bg-yellow-300"}
         hoverColour={"hover:bg-yellow-600"}
@@ -128,46 +170,12 @@ export default function SavingsSection({
           {isNaN(savingsTotal) ? (
             <p>Check your amounts!</p>
           ) : (
-            <StatsWrapper>
-              <Stat
-                text="Total Saved Monthly:"
-                figure={savingsTotal.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              ></Stat>
-              <Stat
-                text={`As Percent (of £${(
-                  monthlytakeHome - expensesTotal
-                ).toFixed(2)})`}
-                figure={(
-                  (savingsTotal / (monthlytakeHome - expensesTotal)) *
-                  100
-                ).toFixed(2)}
-                percentTrue={true}
-              ></Stat>
-
-              {savingsTypes.map((type, index) => {
-                const matchedValue = savings
-                  .filter((each) => each.savingType == type)
-                  .reduce((acc, curr) => acc + parseInt(curr.savingValue), 0);
-                return (
-                  <Stat
-                    key={index}
-                    text={`Total in ${type}s:`}
-                    figure={matchedValue.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
-                  ></Stat>
-                );
-              })}
-            </StatsWrapper>
+            <StatsWrapper stats={savingsStats} />
           )}
         </>
       ) : (
         ""
       )}
-    </div>
+    </SectionWrapper>
   );
 }

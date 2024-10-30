@@ -1,5 +1,5 @@
 import MainHeading from "./MainHeading";
-import Stat from "./Stat";
+import SectionWrapper from "./SectionWrapper";
 import StatsWrapper from "./StatsWrapper";
 export default function IncomeSection({
   setIncomeVisible,
@@ -9,8 +9,27 @@ export default function IncomeSection({
   annualTakeHome,
   monthlytakeHome,
 }) {
+  const incomeStats = [
+    {
+      text: "Annual take home pay:",
+      figure: annualTakeHome.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+      percentTrue: false,
+    },
+    {
+      text: "Monthly take home pay:",
+      figure: monthlytakeHome.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+      percentTrue: false,
+    },
+  ];
+
   return (
-    <div className="user-income flex flex-col gap-2 bg-green-800 text-white p-2 rounded-md w-full border-t-8 border-t-green-600 shadow shadow-slate-800">
+    <SectionWrapper>
       <MainHeading
         mainColour={"bg-orange-300"}
         hoverColour={"hover:bg-orange-600"}
@@ -35,7 +54,7 @@ export default function IncomeSection({
       <div
         className={`${
           incomeVisible ? `block` : `hidden`
-        } flex flex-col items-center gap-4`}
+        } flex flex-col items-center gap-4 w-full`}
       >
         <input
           name="userIncome"
@@ -50,23 +69,8 @@ export default function IncomeSection({
           }}
         />
 
-        <StatsWrapper>
-          <Stat
-            text="Annual take home pay:"
-            figure={annualTakeHome.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          ></Stat>
-          <Stat
-            text="Monthly take home pay:"
-            figure={monthlytakeHome.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          ></Stat>
-        </StatsWrapper>
+        <StatsWrapper stats={incomeStats} />
       </div>
-    </div>
+    </SectionWrapper>
   );
 }

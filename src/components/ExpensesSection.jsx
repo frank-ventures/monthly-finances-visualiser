@@ -3,7 +3,7 @@ import DeleteButton from "./DeleteButton";
 import AddNewButton from "./AddNewButton";
 import "scroll-shadow-element";
 import StatsWrapper from "./StatsWrapper";
-import Stat from "./Stat";
+import SectionWrapper from "./SectionWrapper";
 
 export default function ExpensesSection({
   setExpensesVisible,
@@ -15,8 +15,29 @@ export default function ExpensesSection({
   expensesTotal,
   monthlytakeHome,
 }) {
+  const expensesStats = [
+    {
+      text: "Total Expenses:",
+      figure: expensesTotal.toFixed(2),
+      percentTrue: false,
+    },
+    {
+      text: "Income Remaining:",
+      figure: (monthlytakeHome - expensesTotal).toFixed(2),
+      percentTrue: false,
+    },
+    {
+      text: "% of Income Remaining:",
+      figure: (
+        ((monthlytakeHome - expensesTotal) / monthlytakeHome) *
+        100
+      ).toFixed(1),
+      percentTrue: true,
+    },
+  ];
+
   return (
-    <div className="user-expenses flex flex-col items-center gap-2 bg-green-800 text-white p-2 rounded-md w-full border-t-8 border-t-green-600 shadow shadow-slate-800">
+    <SectionWrapper>
       <MainHeading
         mainColour={"bg-purple-300"}
         hoverColour={"hover:bg-purple-600"}
@@ -101,22 +122,8 @@ export default function ExpensesSection({
       {isNaN(expensesTotal) ? (
         <p>Check your amounts!</p>
       ) : (
-        <StatsWrapper>
-          <Stat text="Total Expenses:" figure={expensesTotal.toFixed(2)}></Stat>
-          <Stat
-            text="Income Remaining:"
-            figure={(monthlytakeHome - expensesTotal).toFixed(2)}
-          ></Stat>
-          <Stat
-            text="% of Income Remaining:"
-            figure={(
-              ((monthlytakeHome - expensesTotal) / monthlytakeHome) *
-              100
-            ).toFixed(1)}
-            percentTrue={true}
-          ></Stat>
-        </StatsWrapper>
+        <StatsWrapper stats={expensesStats} />
       )}
-    </div>
+    </SectionWrapper>
   );
 }
