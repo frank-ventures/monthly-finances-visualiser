@@ -40,15 +40,28 @@ export default function IncomeSection({
         visibility={incomeVisible}
       />
 
-      <label htmlFor="userIncome" className="text-center font-light text-lg ">
+      <label htmlFor="userIncome" className="text-center font-light text-lg">
         Your Annual Income:{" "}
-        <span className="text-2xl pl-2 text-green-400">
-          £
-          {userIncome.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-        </span>
+        <span className="text-3xl pl-2 text-green-400">£</span>
+        <input
+          name="userIncome"
+          type="text"
+          min={0}
+          placeholder="Enter here"
+          value={
+            userIncome === 0
+              ? ""
+              : userIncome.toLocaleString(undefined, {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                })
+          }
+          className="rounded pl-1 w-8/12 max-w-56 bg-green-600 text-3xl text-green-400 bg-opacity-5 focus:bg-green-300 focus:text-green-800"
+          onChange={(event) => {
+            let income = event.target.value.replace(/[^0-9.]/g, "");
+            setUserIncome(income ? parseFloat(income) : 0);
+          }}
+        />
       </label>
 
       <div
@@ -56,19 +69,6 @@ export default function IncomeSection({
           incomeVisible ? `block` : `hidden`
         } flex flex-col items-center gap-4 w-full`}
       >
-        <input
-          name="userIncome"
-          type="number"
-          min={0}
-          placeholder="Enter your yearly income"
-          value={userIncome.toString()}
-          className="p-2 rounded shadow-inner shadow-black text-black w-8/12 max-w-72"
-          onChange={(event) => {
-            const income = event.target.value.replace(/^0+/, "");
-            setUserIncome(parseInt(income || 0));
-          }}
-        />
-
         <StatsWrapper stats={incomeStats} />
       </div>
     </SectionWrapper>

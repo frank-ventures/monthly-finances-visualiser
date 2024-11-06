@@ -5,6 +5,8 @@ import TaxSection from "./components/TaxSection";
 import ExpensesSection from "./components/ExpensesSection";
 import SavingsSection from "./components/SavingsSection";
 
+// this is sam!
+// these comments are nuts
 //TODO: Tidy up this enormous messy tangle of code. Refactoring, Components and more.
 export default function App() {
   // --- --- --- --- --- --- --- --- --- --- --- ---
