@@ -29,8 +29,11 @@ export default function App() {
   useEffect(() => {
     if (userIncome < personalAllowance) {
       setUsersTaxableIncome(0);
-    } else {
+    } else if (userIncome > 12571 && userIncome < 125140) {
       setUsersTaxableIncome(parseFloat(userIncome - personalAllowance));
+    } else if (userIncome < 125140) {
+      // You do not get a Personal Allowance on taxable income over £125,140
+      setUsersTaxableIncome(parseFloat(userIncome));
     }
   }, [userIncome]);
 
@@ -39,10 +42,19 @@ export default function App() {
   const [nationalInsurancePayments, setNationalInsurancePayments] = useState(0);
   // TODO: NI payments vary depending on income:
   useEffect(() => {
-    if (userIncome > 12570 && userIncome < 50270) {
-      setNationalInsurancePayments(parseFloat(usersTaxableIncome * 0.08));
-    } else {
+    if (userIncome < 12570) {
       setNationalInsurancePayments(0);
+    } else if (userIncome > 12570 && userIncome < 50271) {
+      setNationalInsurancePayments(parseFloat(usersTaxableIncome * 0.08));
+    } else if (userIncome > 50271) {
+      const higherRate = userIncome - 50270;
+      const basicRate = userIncome - higherRate - personalAllowance;
+
+      // 20% on the first bit
+      const higherRateNI = higherRate * 0.02;
+      const basicRateNI = basicRate * 0.08;
+      //set national insurance here
+      setNationalInsurancePayments(parseFloat(basicRateNI + higherRateNI));
     }
   }, [userIncome, usersTaxableIncome]);
 
@@ -51,8 +63,38 @@ export default function App() {
   const [taxPaid, setTaxPaid] = useState(0);
   // TODO: Tax payments is also variable depending on income level:
   useEffect(() => {
-    setTaxPaid(parseFloat(usersTaxableIncome * 0.2));
-  }, [usersTaxableIncome]);
+    if (userIncome > 12571 && userIncome < 50271) {
+      setTaxPaid(parseFloat(usersTaxableIncome * 0.2));
+    } else if (userIncome > 50270 && userIncome < 125141) {
+      const higherRate = userIncome - 50270;
+      const basicRate = userIncome - higherRate - personalAllowance;
+
+      // 20% on the first bit
+      const higherRateTaxed = higherRate * 0.4;
+      const basicRateTaxed = basicRate * 0.2;
+      setTaxPaid(basicRateTaxed + higherRateTaxed);
+      // 40% on the next bit
+    } else if (userIncome > 125140) {
+      console.log("user income is ", userIncome);
+      //no personal allowance
+      //basic rate up to 50270
+      //higher 50270 to 125140
+      //additional 45% over 125140
+      const additionalRate = userIncome - 125140;
+      console.log(additionalRate, " will be taxed at 45%");
+
+      const additionalRateTaxed = additionalRate * 0.45;
+      const higherRateTaxed = 74869 * 0.4;
+      const basicRateTaxed = 50270 * 0.2;
+      console.log(additionalRateTaxed + higherRateTaxed + basicRateTaxed);
+      setTaxPaid(additionalRateTaxed + higherRateTaxed + basicRateTaxed);
+    }
+  }, [usersTaxableIncome, userIncome]);
+
+  // Basic Rate: £12,571 to £50,270	20%
+  // Higher Rate: £50,271 to £125,140	40%
+  // Additional Rate: over £125,140	45%
+  // You do not get a Personal Allowance on taxable income over £125,140
 
   // --- --- --- --- --- --- --- ---
   // --- --- Annual Take Home --- ---
