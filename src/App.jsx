@@ -23,7 +23,6 @@ export default function App() {
   // --- --- --- --- --- --- --- ---
   // --- --- Taxable Income --- ---
   const [taxVisible, setTaxVisible] = useState(false);
-  // TODO: personal allowance is a dynamic figure I think. Check GOV:
   const personalAllowance = 12570;
   const [usersTaxableIncome, setUsersTaxableIncome] = useState(0);
   useEffect(() => {
@@ -31,7 +30,7 @@ export default function App() {
       setUsersTaxableIncome(0);
     } else if (userIncome > 12571 && userIncome < 125140) {
       setUsersTaxableIncome(parseFloat(userIncome - personalAllowance));
-    } else if (userIncome < 125140) {
+    } else if (userIncome > 125140) {
       // You do not get a Personal Allowance on taxable income over £125,140
       setUsersTaxableIncome(parseFloat(userIncome));
     }
@@ -40,7 +39,7 @@ export default function App() {
   // --- --- --- --- --- --- --- ---
   // --- --- National Insurance --- ---
   const [nationalInsurancePayments, setNationalInsurancePayments] = useState(0);
-  // TODO: NI payments vary depending on income:
+  // TODO: Refactor this:
   useEffect(() => {
     if (userIncome < 12570) {
       setNationalInsurancePayments(0);
@@ -61,7 +60,7 @@ export default function App() {
   // --- --- --- --- --- --- --- ---
   // --- --- Tax Paid --- ---
   const [taxPaid, setTaxPaid] = useState(0);
-  // TODO: Tax payments is also variable depending on income level:
+  // TODO: Refactor this:
   useEffect(() => {
     if (userIncome > 12571 && userIncome < 50271) {
       setTaxPaid(parseFloat(usersTaxableIncome * 0.2));
@@ -75,18 +74,16 @@ export default function App() {
       setTaxPaid(basicRateTaxed + higherRateTaxed);
       // 40% on the next bit
     } else if (userIncome > 125140) {
-      console.log("user income is ", userIncome);
       //no personal allowance
       //basic rate up to 50270
       //higher 50270 to 125140
       //additional 45% over 125140
       const additionalRate = userIncome - 125140;
-      console.log(additionalRate, " will be taxed at 45%");
 
       const additionalRateTaxed = additionalRate * 0.45;
-      const higherRateTaxed = 74869 * 0.4;
-      const basicRateTaxed = 50270 * 0.2;
-      console.log(additionalRateTaxed + higherRateTaxed + basicRateTaxed);
+      const higherRateTaxed = 87439 * 0.4;
+      const basicRateTaxed = 37700 * 0.2;
+
       setTaxPaid(additionalRateTaxed + higherRateTaxed + basicRateTaxed);
     }
   }, [usersTaxableIncome, userIncome]);
