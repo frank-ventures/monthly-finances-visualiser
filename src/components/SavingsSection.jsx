@@ -1,8 +1,8 @@
 import MainHeading from "./MainHeading";
-import DeleteButton from "./DeleteButton";
 import AddNewButton from "./AddNewButton";
 import StatsWrapper from "./StatsWrapper";
 import SectionWrapper from "./SectionWrapper";
+import PosNegButton from "./PosNegButton";
 
 export default function SavingsSection({
   setSavingsVisible,
@@ -94,7 +94,7 @@ export default function SavingsSection({
       {savingsVisible ? (
         <>
           <scroll-shadow>
-            <div className="hidden-scrollbar min-w-[600px] overflow-x-scroll whitespace-nowrap flex flex-col gap-2 max-h-52 overflow-scroll border border-solid border-green-800 p-2 rounded-lg w-full  bg-sky-800 shadow-inner shadow-black border-l-4 border-l-sky-500 ">
+            <div className="hidden-scrollbar min-w-[600px] overflow-x-scroll whitespace-nowrap flex flex-col gap-2 max-h-52 overflow-scroll border border-solid border-green-800 px-2 py-4 rounded-lg w-full  bg-sky-800 shadow-inner shadow-black border-l-4 border-l-sky-500 ">
               <div className="flex gap-2 justify-between items-center text-center mx-2">
                 <p className="w-3/12">What is it?</p>
                 <p className="w-2/12">How much?</p>
@@ -155,11 +155,14 @@ export default function SavingsSection({
                     }
                   />
 
-                  <DeleteButton
-                    onClickFunction={() => handleDeleteType(index, "saving")}
-                    text="Delete"
-                    conditionalCheck={savings.length == 1}
-                  />
+                  <div className="w-2/12 text-center">
+                    <PosNegButton
+                      text="Delete"
+                      onClickFunction={() => handleDeleteType(index, "saving")}
+                      positive={false}
+                      conditionalCheck={savings.length == 1}
+                    />
+                  </div>
                 </div>
               ))}
             </div>

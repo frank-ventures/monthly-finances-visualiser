@@ -4,6 +4,8 @@ import IncomeSection from "./components/IncomeSection";
 import TaxSection from "./components/TaxSection";
 import ExpensesSection from "./components/ExpensesSection";
 import SavingsSection from "./components/SavingsSection";
+import HelpSection from "./components/HelpSection";
+import PosNegButton from "./components/PosNegButton";
 
 //TODO: Tidy up this enormous messy tangle of code. Refactoring, Components and more.
 export default function App() {
@@ -242,9 +244,9 @@ export default function App() {
   // --- --- --- --- --- Main Return --- --- --- ---
   // --- --- --- --- --- --- --- --- --- --- --- ---
   return (
-    <div className="whole-page flex gap-4 flex-col p-2 items-center bg-sky-100 min-h-dvh">
-      <h1 className=" text-orange-600 text-6xl">Play Money</h1>
-
+    <div className="whole-page flex gap-4 flex-col p-2 items-center bg-slate-600 w-dvw min-h-dvh">
+      <h1 className=" text-slate-100 text-6xl">Play Money</h1>
+      <HelpSection />
       <IncomeSection
         setIncomeVisible={setIncomeVisible}
         incomeVisible={incomeVisible}
@@ -295,33 +297,27 @@ export default function App() {
           />
 
           {!resetVisible ? (
-            <button
-              className="bg-red-500 bg-opacity-40 p-2 border border-red-700"
-              onClick={() => {
-                setResetVisible(!resetVisible);
-              }}
-            >
-              Reset All?
-            </button>
+            <PosNegButton
+              text="Reset All?"
+              onClickFunction={() => setResetVisible(!resetVisible)}
+              positive={false}
+            />
           ) : (
             ""
           )}
           {resetVisible ? (
-            <div className="flex gap-8">
-              <button
-                className="bg-red-500 bg-opacity-40 p-2 border border-red-700"
-                onClick={resetAllStats}
-              >
-                Actually Reset!
-              </button>
-              <button
-                className="bg-green-500 bg-opacity-40 p-2 border border-green-700"
-                onClick={() => {
-                  setResetVisible(!resetVisible);
-                }}
-              >
-                No!
-              </button>
+            <div className="flex gap-10">
+              <PosNegButton
+                text="Actually Reset!"
+                onClickFunction={resetAllStats}
+                positive={false}
+              />
+
+              <PosNegButton
+                text="No!"
+                onClickFunction={() => setResetVisible(!resetVisible)}
+                positive={true}
+              />
             </div>
           ) : (
             ""
