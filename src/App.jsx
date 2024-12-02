@@ -9,20 +9,13 @@ import PosNegButton from "./components/PosNegButton";
 
 //TODO: Tidy up this enormous messy tangle of code. Refactoring, Components and more.
 export default function App() {
-  // --- --- --- --- --- --- --- --- --- --- --- ---
   // --- --- --- --- --- Income --- --- --- --- ---
-  // --- --- --- --- --- --- --- --- --- --- --- ---
-  // --- --- User Income
-  // --- Income
+  // --- --- User Income --- ----
   const [userIncome, setUserIncome] = useState(() => {
     return JSON.parse(localStorage.getItem("userIncome")) || 0;
   });
   const [incomeVisible, setIncomeVisible] = useState(true);
 
-  // --- --- --- --- --- --- --- --- --- --- --- ---
-  // --- --- --- --- --- Maths --- --- --- --- ---
-  // --- --- --- --- --- --- --- --- --- --- --- ---
-  // --- --- --- --- --- --- --- ---
   // --- --- Taxable Income --- ---
   const [taxVisible, setTaxVisible] = useState(false);
   const personalAllowance = 12570;
@@ -38,7 +31,6 @@ export default function App() {
     }
   }, [userIncome]);
 
-  // --- --- --- --- --- --- --- ---
   // --- --- National Insurance --- ---
   const [nationalInsurancePayments, setNationalInsurancePayments] = useState(0);
   // TODO: Refactor this:
@@ -59,7 +51,6 @@ export default function App() {
     }
   }, [userIncome, usersTaxableIncome]);
 
-  // --- --- --- --- --- --- --- ---
   // --- --- Tax Paid --- ---
   const [taxPaid, setTaxPaid] = useState(0);
   // TODO: Refactor this:
@@ -95,7 +86,6 @@ export default function App() {
   // Additional Rate: over £125,140	45%
   // You do not get a Personal Allowance on taxable income over £125,140
 
-  // --- --- --- --- --- --- --- ---
   // --- --- Annual Take Home --- ---
   const [annualTakeHome, setAnnualTakeHome] = useState(0);
   useEffect(() => {
@@ -109,17 +99,13 @@ export default function App() {
     }
   }, [userIncome, usersTaxableIncome, nationalInsurancePayments, taxPaid]);
 
-  // --- --- --- --- --- --- --- ---
   // --- --- Monthly Take Home --- ---
   const [monthlytakeHome, setMonthlyTakeHome] = useState(0);
   useEffect(() => {
     setMonthlyTakeHome(parseFloat(annualTakeHome / 12));
   }, [annualTakeHome]);
 
-  // --- --- --- --- --- --- --- --- --- --- --- ---
   // --- --- --- --- --- Functions --- --- --- ---
-  // --- --- --- --- --- --- --- --- --- --- --- ---
-  // --- --- --- --- --- --- --- ---
   // --- --- Add Expenses / Savings --- ---
   // https://dev.to/okafor__mary/how-to-dynamically-add-input-fields-on-button-click-in-reactjs-5298
   // --- Expenses States
@@ -212,9 +198,7 @@ export default function App() {
     }
   };
 
-  // --- --- --- --- --- --- --- --- --- --- --- ---
   // --- --- --- --- --- Local Storage --- --- --- ---
-  // --- --- --- --- --- --- --- --- --- --- --- ---
   useEffect(() => {
     localStorage.setItem("userIncome", JSON.stringify(userIncome));
   }, [userIncome]);
@@ -227,9 +211,7 @@ export default function App() {
     localStorage.setItem("savings", JSON.stringify(savings));
   }, [savings]);
 
-  // --- --- --- --- --- --- --- --- --- --- --- ---
   // --- --- --- --- --- Reset --- --- --- ---
-  // --- --- --- --- --- --- --- --- --- --- --- ---
   const [resetVisible, setResetVisible] = useState(false);
   function resetAllStats() {
     setUserIncome(0);
@@ -240,9 +222,7 @@ export default function App() {
     setResetVisible(false);
   }
 
-  // --- --- --- --- --- --- --- --- --- --- --- ---
   // --- --- --- --- --- Main Return --- --- --- ---
-  // --- --- --- --- --- --- --- --- --- --- --- ---
   return (
     <div className="whole-page flex gap-4 flex-col p-2 items-center bg-slate-600 w-dvw min-h-dvh">
       <h1 className=" text-slate-100 text-6xl">Play Money</h1>
